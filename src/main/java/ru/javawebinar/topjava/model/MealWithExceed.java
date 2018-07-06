@@ -1,7 +1,6 @@
 package ru.javawebinar.topjava.model;
 
 import java.time.LocalDateTime;
-import java.util.Random;
 
 public class MealWithExceed {
     private final Integer id;
@@ -20,10 +19,6 @@ public class MealWithExceed {
         this.description = description;
         this.calories = calories;
         this.exceed = exceed;
-    }
-
-    public MealWithExceed(LocalDateTime dateTime, String description, int calories, boolean exceed) {
-        this(new Random().nextInt(), dateTime, description, calories, exceed);
     }
 
     public Integer getId() {
@@ -49,7 +44,6 @@ public class MealWithExceed {
     @Override
     public String toString() {
         return "UserMealWithExceed{" +
-                "id=" + id +
                 "dateTime=" + dateTime +
                 ", description='" + description + '\'' +
                 ", calories=" + calories +

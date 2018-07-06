@@ -1,35 +1,34 @@
 package ru.javawebinar.topjava.repository;
 
+import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.model.MealWithExceed;
 import ru.javawebinar.topjava.util.MealsUtil;
 
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class InMemoryMealRepository implements MealRepository {
-    private Map<Integer, MealWithExceed> repository = new HashMap<>();
+    private final static int CALORIES_PER_DAY = 2000;
+
+    private Map<Integer, Meal> repository = new HashMap<>();
 
     {
-        List<MealWithExceed> mealWithExceedList = MealsUtil.getFilteredWithExceeded(MealsUtil.meals, LocalTime.of(0, 0), LocalTime.of(23, 59), 2000);
-        mealWithExceedList.forEach(m -> repository.put(m.getId(), m));
+        MealsUtil.meals.forEach(m -> repository.put(m.getId(), m));
     }
 
     @Override
-    public MealWithExceed get(int id) {
+    public Meal get(int id) {
         return repository.get(id);
     }
 
     @Override
-    public void add(MealWithExceed meal) {
+    public void add(Meal meal) {
         repository.put(meal.getId(), meal);
-
     }
 
     @Override
-    public void update(int id, MealWithExceed meal) {
+    public void update(int id, Meal meal) {
         repository.put(id, meal);
     }
 
@@ -40,6 +39,8 @@ public class InMemoryMealRepository implements MealRepository {
 
     @Override
     public List<MealWithExceed> getAll() {
-        return new ArrayList<>(repository.values());
+        return MealsUtil.getFilteredWithExceeded(new ArrayList<>(repository.values()), LocalTime.of(0, 0), LocalTime.of(23, 59), CALORIES_PER_DAY)
+                .stream()
+        .sorted(Comparator.comparing(MealWithExceed::getDateTime)).collect(Collectors.toList());
     }
 }
