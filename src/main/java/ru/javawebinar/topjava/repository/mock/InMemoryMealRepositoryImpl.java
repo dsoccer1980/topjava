@@ -68,6 +68,10 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
 
     @Override
     public List<MealWithExceed> getBetween(LocalDate startDate, LocalTime startTime, LocalDate endDate, LocalTime endTime, int userId) {
+        startDate = startDate == null ? LocalDate.MIN : startDate;
+        startTime = startTime == null ? LocalTime.MIN : startTime;
+        endDate = endDate == null ? LocalDate.MAX : endDate;
+        endTime = endTime == null ? LocalTime.MAX : endTime;
         return MealsUtil.getFilteredWithExceeded(getAll(userId), startDate, startTime, endDate, endTime, MealsUtil.DEFAULT_CALORIES_PER_DAY);
     }
 }

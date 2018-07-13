@@ -16,6 +16,23 @@
         }
     </style>
 </head>
+
+<form name="meals" method="get">
+    <select name="userId">
+      <option value="1">User</option>
+      <option value="2">Admin</option>
+    </select>
+    <input type="submit" value="submit">
+</form>
+
+<form name="meals" method="post" action="meals?action=filter">
+    <input type="date" name="dateBegin">
+    <input type="date" name="dateEnd">
+    <input type="time" name="timeBegin">
+    <input type="time" name="timeEnd">
+    <input type="submit" value="submit">
+</form>
+
 <body>
 <section>
     <h3><a href="index.html">Home</a></h3>
